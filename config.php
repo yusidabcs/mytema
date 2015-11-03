@@ -11,7 +11,7 @@ return array(
     | this is cool feature to set up a title, meta, default styles and scripts.
     |
     | [Notice] these event can be override by package config.
-    |
+    | asdas asdasd
     */
 
     'events' => array(
