@@ -1,111 +1,86 @@
-<div class="container">
+	<!--Product List Ends-->
+	<div class="section_container">
+		<!--Mid Section Starts-->
+		<section>
+			<!--SIDE NAV STARTS-->
+			<div id="side_nav">
+				<div class="sideNavCategories">
 
-    <!-- ================ -->
-    <!-- Featured section -->
-    <!-- ================ -->
-    <section class="product">
-        <div class="row">
-            <header class="span12 prime">
-                <h6 class="subhead"><strong>BARANG POPULER</strong></h6>
-            </header>
-        </div>
+					<ul style="border-bottom: solid 1px;border-bottom-color: #f38256; border-top: 0px;">
+						{{pluginSidePowerup()}}
+						<li class="header">Banner</li>
+						@foreach(vertical_banner() as $banner)
+							<a target="_blank" href="{{url($banner->url)}}">
+								<img src="{{banner_image_url($banner->gambar)}}"/>
+							</a>
+						@endforeach
+					</ul>
 
-        <div class="row">
-            <div class="span3 hidden-phone">
-                <div class="sidebar">
-                    {{pluginSidePowerup()}}
-                    <section>
-                        @foreach(getBanner(1) as $item)
-                        <div><a href="{{URL::to($item->url)}}"><img src="{{URL::to(getPrefixDomain().'/galeri/'.$item->gambar)}}" /></a></div>
-                        @endforeach
-                    </section>
+					<ul style="border-bottom: solid 1px; border-bottom-color: #f38256; border-top: 0px;">
+						<li class="header">Hubungi Kami</li>
+						{{ymyahoo($shop->ym)}}
+						<br>
+						@if($shop->telepon)
+							<span style="line-height: 2;">Telpon : <b>{{$shop->telepon}}</b></span><br>
+						@endif
+						@if($shop->hp)
+							<span style="line-height: 2;">SMS  : <b>{{$shop->hp}}</b></i></span><br>
+						@endif
+						@if($shop->bb)
+							<span style="line-height: 2;">BBM  : <b>{{$shop->bb}}</b></span><br>
+						@endif
+					</ul>
 
-                    <section>
-                        <h5>Hubungi Kami</h5>
-                        @if($shop->ym)
-                        {{ymyahoo($shop->ym)}}
-                        <br><br>
-                        @endif  
-
-                        @if($shop->telepon)
-                        <address class="row-fluid">
-                            <div class="pull-left clabel"><i class="icon-phone"></i><i class=""></i></div>
-                            <div class="pull-left cdata"> {{$shop->telepon}}</div>
-                        </address>
-                        @endif
-
-                        @if($shop->hp)
-                        <address class="row-fluid">
-                            <div class="pull-left clabel"><i class="icon-phone"></i><i class=""></i></div>
-                            <div class="pull-left cdata"> {{$shop->hp}}</div>
-                        </address>
-                        @endif
-
-                        @if($shop->email)
-                        <address class="row-fluid">
-                            <div class="pull-left clabel"><i class="icon-mail"></i></div>
-                            <div class="pull-left cdata">
-                                <a href="mailto:{{$shop->email}}" target="_top">{{$shop->email}}</a>
-                            </div>
-                        </address>
-                        @endif
-
-                        @if($shop->bb)
-                        <address class="row-fluid">
-                            <div class="pull-left" style="float:left">
-                                <img src="{{URL::to('img/bbm.png')}}" style="width: 20px;">
-                                <span>{{$shop->bb}}</span>
-                            </div>
-                            <div class="pull-left cdata"></div>
-                        </address>
-                        @endif  
-                    </section>
-
-                    <section>
-                        <h5>Testimonial</h5>
-                        <span>
-                            <ul>
-                            @foreach ($testimo as $items)
-                                <li>
-                                    <a href="#">{{$items->isi}}</a><br />
-                                    <small>oleh <strong>{{$items->nama}}</strong></small>
-                                </li>
-                            @endforeach
-                            </ul>
-                            <strong style="float:right"><a href="{{URL::to('testimoni')}}">More..</a></strong>
-                        </span>
-                    </section>
-                </div>
-            </div>
-
-            <div class="span9">
-                <div class="row-fluid">
-
-                    <!-- Collection -->
-                    <div class="tab-content sideline">
-                    @foreach($produk as $key=>$myproduk)
-                        <article style="height: 262px;position:relative;">
-                            {{is_terlaris($myproduk)}}
-                            {{is_produkbaru($myproduk)}}
-                            {{is_outstok($myproduk)}}
-                            <div class="view view-thumb">
-                                <img style="margin:auto;" src="{{URL::to(getPrefixDomain().'/produk/'.$myproduk->gambar1)}}" alt="" class="img1" />
-                                {{--HTML::image('upload/produk/'.$myproduk->gambar1)--}}
-                                <div class="mask">
-                                    <h2>{{jadiRupiah($myproduk->hargaJual,$matauang)}}</h2>
-                                    <p>{{shortDescription($myproduk->deskripsi,100)}}</p>
-                                    <a href="{{slugProduk($myproduk)}}" class="info">Beli</a>
-                                </div>
-                            </div>
-                            <p class="product-title"><a href="{{slugProduk($myproduk)}}">{{shortDescription($myproduk->nama, 32)}}</a></p>
-                        </article>
-                    @endforeach
-                    </div>
-                    <!-- Collections end -->
-
-                </div>
-            </div>
-        </div>
-    </section>
-    
-</div>
+					<ul style="border-bottom: solid 1px;border-bottom-color: #f38256; border-top: 0px;">
+						<li class="header">Testimonial</li>
+						<span>
+							<ul>
+							@foreach ($testimonial as $items)
+								<li><i>"{{$items->isi}}"</i><br /><small style="line-height: 2;">oleh <b>{{$items->nama}}</b></small></li>
+								<br><br>
+							@endforeach
+							</ul>
+						</span>
+						<b style="float:right;"><a style="text-decoration: none" href="{{url('testimoni')}}">Lainnya..</a></b>
+					</ul>
+				</div>
+			</div>
+			<!--SIDE NAV ENDS-->
+			<!--MAIN CONTENT STARTS-->
+			<div id="main_content">
+				<div class="category_banner"></div>
+				<ul class="breadcrumb">
+					<li><a href="#">Produk</a></li>
+				</ul>
+				<!--Product List Starts-->
+				<div class="toolbar"></div>
+				<div class="products_list products_slider">
+					<ul>
+						@foreach(list_product() as $myproduk)
+						<li style="position:relative;"> 
+							{{is_terlaris($myproduk, $kiri=1)}}
+							{{is_produkbaru($myproduk, $kiri=1)}}
+							{{is_outstok($myproduk, $kiri=1)}}
+							<a href="{{product_url($myproduk)}}" class="product_image">
+								{{HTML::image(product_image_url($myproduk->gambar1), $myproduk->nama, array('style' => 'max-height: 217px;'))}}
+							</a>
+							<div class="product_info">
+								<h3><a href="{{product_url($myproduk)}}">{{strtoupper(short_description($myproduk->nama,24))}}</a></h3>
+								<small>{{short_description($myproduk->deskripsi,80)}}</small>
+							</div>
+							@if($setting->checkoutType==1)
+							<div class="price_info">
+								<!-- <a href="#">+ Add to wishlist</a> -->
+								<button onclick="window.location.href='{{product_url($myproduk)}}'" class="price_add" title="" type="button"><span class="pr_price">&nbsp;{{price($myproduk->hargaJual,$matauang)}}</span><span class="pr_add">Lihat</span></button>
+							</div>
+							@endif
+						</li>
+						@endforeach
+					</ul>
+				</div>
+				<!--Product List Ends-->
+			</div>
+			<!--MAIN CONTENT ENDS-->
+		</section>
+		<!--Mid Section Ends-->
+	</div>

@@ -1,4 +1,4 @@
-define(['jquery','jq_ui','bootstrap','flexslider','jquery_sharrre','noty'], function($)
+define(['jquery','jq_ui','bootstrap','noty','carouFredSel','flexslider'], function($)
 {
 	return new function()
 	{
@@ -8,23 +8,135 @@ define(['jquery','jq_ui','bootstrap','flexslider','jquery_sharrre','noty'], func
 		{
 			close_dialog();
 			deletecartdialog();
-			slider();
 			addToCartButton();
-			sharrreButtons();
 			plugin_trustklik();
 
-			//tampilkan error noty
+			// tampilkan error noty
 			var msg = $('#message');
 			if(msg.length){
 				type = $(msg).attr('class');		
 				text = $(msg).html();
 				noty({"text":text,"layout":"top","type":type});    
-			}
-			
-			// Fancybox function
-			$('#flexslider-product .slides a').fancybox();
+			};
 
-			$(".collapse").collapse();		    
+			cartQty();
+			carousel_produk();
+		};
+
+		var carousel_produk = function(){
+			$('.carousel-wrapper').each(function() {
+				var $this = $(this), new_max;
+				var configs = new Array();
+				configs['autoplay'] = $this.data('autoplay') == true;
+				configs['loop'] = $this.data('loop') == true;
+				configs['width'] = $this.data('width');
+				configs['minItems'] = $this.data('minitems');
+				configs['maxItems'] = $this.data('maxitems');
+				configs['slideshowspeed'] = $this.data('slideshow-speed');
+				configs['speed'] = $this.data('speed');
+				
+				new_max = configs['maxItems'];
+				var sliderW = $this.width();
+				if ( sliderW >= 980 )
+				{
+					if ( configs['maxItems'] > 4 ) new_max = 4;
+				}
+				else if ( sliderW < 980 && sliderW >= 768 )
+				{
+					if ( configs['maxItems'] > 3 ) new_max = 3;
+				}
+				else if ( sliderW < 768 && sliderW >= 640 )
+				{
+					if ( configs['maxItems'] > 2 ) new_max = 2;
+				}
+				else if ( sliderW < 640 && sliderW >= 480 )
+				{
+					if ( configs['maxItems'] > 2 ) new_max = 2;
+				}
+				else
+				{
+					new_max = 1;
+				}
+				
+				configs['minWidth'] = ( isNaN(configs['width']) || configs['width'] == 'undefined' ) ? sliderW / new_max : configs['width'];
+
+				$this.children('ul').carouFredSel({
+					circular: false,
+					infinite: false,
+					responsive: true,
+					width: '100%',
+					height: 'auto',
+					items: {
+						visible: {
+							min: configs['minItems'],
+							max: configs['maxItems'],
+						},
+						width: configs['minWidth']
+					},
+					scroll: {
+						easing: 'easeOutQuart'
+					},
+					auto: false,
+					prev: {
+						button: function() { return $this.closest('.carousel-iframe').find('.carousel-direction-arrows .crsl-prev'); },
+						key: "left",
+						duration: configs['speed']
+					},
+					next: {
+						button: function() { return $this.closest('.carousel-iframe').find('.carousel-direction-arrows .crsl-next'); },
+						key: "right",
+						duration: configs['speed']
+					},
+					swipe: {
+						onMouse: true,
+						onTouch: true
+					},
+					onCreate: function () {
+						carousel_height( $this );
+						$(window).on('resize', function() {
+							carousel_height( $this );
+						});
+					}
+				});
+					
+			});
+		};
+		var carousel_height = function( $this )
+		{
+			// $this.imagesLoaded(function() {
+				var max = 0;
+				$this.find('li').each(function() {
+					if ( $(this).outerHeight() > max )
+					{
+						max = $(this).outerHeight();
+					}
+				});
+				$this.find('.carousel-list, .caroufredsel_wrapper').css( 'height', max + 'px' );
+			// });
+		}
+
+		var cartQty = function(){
+			// Quantity increment/decrement button set
+			
+			$('.qty-btngroup').each(function() {
+				var $this = $(this),
+					$input = $this.children('input[type="text"]'),
+					val = $input.val();
+				$this.children('.plus').on('click', function() {
+					$input.val( ++val );
+				});
+				$this.children('.minus').on('click', function() {
+					if ( val == 0 ) return;
+					$input.val( --val );
+				});
+			});
+			
+			$('.my-cart .remove-item').on('click', function(e) {
+				e.preventDefault();
+				$(this).closest('tr').fadeOut(400, function() {
+					$(this).remove();
+				});
+			});
 		};
 
 		var addToCartButton = function(){
@@ -156,13 +268,13 @@ define(['jquery','jq_ui','bootstrap','flexslider','jquery_sharrre','noty'], func
 		};
 		
 		var close_dialog = function(){
-			$('.left .button-dialog').live('click',function(){
+			$(document).on('click', '.left .button-dialog', function(){
 				$('#cart_dialog').dialog().dialog('close');
 			});
 		};
 
 		var deletecartdialog = function(){
-			$(".remove").live('click',function(){
+			$(document).on('click','.remove',function(){
 				var delete_id = $(".remove a[href*=deletecartdialog]").attr("href");
 				id = delete_id.match(/'([^']+)'/)[1];
 				
@@ -180,126 +292,6 @@ define(['jquery','jq_ui','bootstrap','flexslider','jquery_sharrre','noty'], func
 					});	
 				}
 			});
-		};
-
-		var sharrreButtons = function(){
-			$('#twitter').sharrre({
-			  share: {
-				twitter: true
-			  },
-			  enableHover: true,
-			  enableTracking: true,
-			  enableCounter: false,
-			  buttons: { 
-				twitter: {via: 'jarvis_store', count: 'vertical'}
-			  },
-			  click: function(api, options){
-				api.simulateClick();
-				api.openPopup('twitter');
-			  }
-			});
-			$('#facebook').sharrre({
-			  share: {
-				facebook: true
-			  },
-			  buttons: {
-				facebook: {layout: 'box_count'}
-			  },
-			  enableHover: false,
-			  enableTracking: true,
-			  enableCounter: false,
-			  click: function(api, options){
-				api.simulateClick();
-				api.openPopup('facebook');
-			  }
-			});
-			$('#googleplus').sharrre({
-			  share: {
-				googlePlus: true
-			  },
-			  buttons: {
-				googlePlus: {size: 'tall', annotation:'bubble'}
-			  },
-			  enableHover: false,
-			  enableTracking: true,
-			  enableCounter: false,
-			  click: function(api, options){
-				api.simulateClick();
-				api.openPopup('googlePlus');
-			  }
-			});
-			$('#delicious').sharrre({
-			  share: {
-				delicious: true
-			  },
-			  buttons: {
-				delicious: {size: 'tall'}
-			  },
-			  enableHover: true,
-			  enableTracking: true,
-			  enableCounter: false
-			});
-			$('#stumbleupon').sharrre({
-			  share: {
-				stumbleupon: true
-			  },
-			  buttons: {
-				stumbleupon: {layout: '5'}
-			  },
-			  enableHover: true,
-			  enableTracking: true,
-			  enableCounter: false
-			});
-		};
-
-		var slider = function(){
-			//Main slider
-			$('#flexcarousel').flexslider({
-			animation: "slide",
-			controlNav: false,
-			animationLoop: false,
-			slideshow: false,
-			itemWidth: 188,
-			//itemMargin: 5 ,
-			asNavFor: '#flexslider'
-		  });
-		   
-		  $('#flexslider').flexslider({
-			animation: "slide",
-			controlNav: true,
-			animationLoop: true,
-			slideshow: true,
-			slideshowSpeed: 5000,
-			animationSpeed: 600,
-			sync: "#flexcarousel"
-		  });
-		  
-		  // Thubnail
-		  $('#flexcarousel-product').flexslider({
-			animation: "slide",
-			controlNav: false,
-			animationLoop: false,
-			slideshow: false,
-			itemWidth: 115,
-			asNavFor: "#flexslider-product"
-		  });
-		  
-		  $('#flexslider-product').flexslider({
-			animation: "slide",
-			controlNav: true,
-			animationLoop: true,
-			slideshow: false,
-			sync: "#flexcarousel-product"
-		  });
-
-		  // Brands
-		  $('#flexcarousel-brands').flexslider({
-			animation: "slide",
-			controlNav: false,
-			animationLoop: true,
-			slideshow: false,
-			itemWidth: 180,
-		  });
 		};
 
 		var plugin_trustklik = function(){

@@ -1,5 +1,7 @@
 <?php
+
 return array(
+
     /*
     |--------------------------------------------------------------------------
     | Listener from events
@@ -13,26 +15,23 @@ return array(
     */
 
     'events' => array(
+
         // Listen on event set up theme.
         'onSetTheme' => function($theme)
         {
-
 
         },
 
         // Listen on event set up layout.
         'onSetLayout' => function($theme)
         {
-            // $title = Pengaturan::all();
 
-            //$theme->setTitle('title');
         },
 
         // Listen on event before render theme.
         'beforeRenderTheme' => function($theme)
         {
             // You may use this event to set up your assets.
-
             //$theme->asset()->usePath()->add('name', 'test.js');
         },
 
@@ -40,26 +39,29 @@ return array(
         'beforeRenderLayout' => function($theme)
         {
 
-
         },
 
         // Listen on event before render theme and layout
         'beforeRenderThemeWithLayout' => function($theme)
         {
 
-
         }
-    ),
 
+    ),
+    'num_display' => array(
+        'home_product'=>9,
+        'main_product'=>8,
+        'related_product'=>4,
+        'latest_product'=>5,
+        'bestseller'=>5,
+        'featured'=>5,
+        'blog'=>5,
+        'testimonial'=>4,    
+    ),
     'banner' => true,
-
-    'themesColor' => array(
-        'type'=> 'false', 
-        'warnaDef'=>'background:#FFF;backmenu-background:#F5F5F5;menu-background:#E55137;footer-background:#F3F3F3',
-        'color'=>false
-    ),
-
-    'layout' => array(
+    'themesColor' => array('type'=> 'false', 'warnaDef'=>'main-color:#FEAA37', 'color'=>false),
+    /*'layout' => array(
         'index1'=>'Layout dengan sidebar'
-    ),
+        ),*/
+    'layout' => false,
 );

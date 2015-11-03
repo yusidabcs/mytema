@@ -1,111 +1,88 @@
-@if(Session::has('error'))
+    <div class="breadcrumbs-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 center-sm">
+                    <div class="breadcrumbs">
+                        <ul class="unstyled">
+                            <li><a href="{{url('/')}}">Home</a></li>
+                            <li class="active">Reset Password</li>                                                
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-xs-12 col-sm-12 space20 visible-xs"></div>
+                
+                <div class="col-xs-12 col-sm-6 center-sm">
+                    <div class="display-mode">
+                        <ul class="unstyled float-right"> Reset Password </ul>
+                    </div>
+                </div>
+            </div>        
+        </div>
+    </div>
+    <!-- /BREADCRUMBS -->
+    
+    <!-- SIDEBAR + MAIN CONTENT CONTAINER -->
+    <div class="main-content">
+        <div class="container">
+            <div class="row">
+                <!-- SIDE BAR -->
+                <div class="col-xs-12 col-sm-4 col-lg-3 pull-right sidebar">
+                    <!-- CHOOSE COLOR -->
+                    @foreach(vertical_banner() as $key=>$banner)
+                    <div class="section  module-list-items">
+                        <div class="cat-image">
+                            <a href="{{url($banner->url)}}">
+                                <img src="{{banner_image_url($banner->gambar)}}" width="100%"/>
+                            </a>                                    
+                        </div>
+                    </div>      
+                    @endforeach
+                    <!-- /CHOOSE COLOR -->
+                </div>
+                <!-- /SIDE BAR -->                      
 
-	<div class="error" id='message' style='display:none'>							
-		{{Session::get('error')}}
-	</div>
-
-@endif
-@if(Session::has('success'))
-
-	<div class="success" id='message' style='display:none'>
-		<p>Selamat, anda sudah berhasil register. Silakan check email untuk mengetahui informasi akun anda.</p>					
-	</div>
-
-@endif
-@if(Session::has('errorrecovery'))
-
-	<div class="error" id='message' style='display:none'>
-		<p>Maaf, email anda tidak ditemukan.</p>					
-	</div>
-
-@endif	
-
-<div class="container">
-
-	<!-- Login Section -->
-	<section class="login">
-		<div class="row standard">
-			<header class="span12 prime">
-				<h3>Akun</h3>
-			</header>
-		</div>				
-
-		<div class="wrap">
-			<div class="row-fluid">
-				<div class="span6">
-					<ul class="nav nav-tabs" id="myTab">
-						<li><a href="#login"><i class="icon-lock"></i> Login</a></li>
-						<li class="active"><a href="#forgot"><i class="icon-help"></i> Lupa Password</a></li>
-					</ul>
-
-					<div class="tab-content">
-
-						<!-- Login -->
-						<div class="tab-pane" id="login">
-							<form class="form-horizontal" action="{{URL::to('member/login')}}" method="post">
-								<div class="control-group">
-									<label class="control-label" for="inputEmail"> Email</label>
-									<div class="controls">
-										<input type="email" name="email" id="inputEmail" placeholder="Email" required>
-									</div>
-								</div>
-
-								<div class="control-group">
-									<label class="control-label" for="inputPassword">Password</label>
-									<div class="controls">
-										<input type="password" name="password" id="inputPassword" placeholder="Password" required>
-									</div>
-								</div>
-
-								<div class="control-group">
-									<div class="controls">
-										<button type="submit" class="btn theme">Login</button>
-									</div>
-								</div>
-							</form>
-						</div>
-
-						<!-- Register -->
-						<div class="tab-pane active" id="forgot">
-					  		{{Form::open(array('url' => 'member/recovery/'.$id.'/'.$code, 'class' => 'form-horizontal'))}}
-								<div class="control-group">
-									<label class="control-label" for="inputPassword">Password Baru</label>
-									<div class="controls">
-										<input type="password" name="password" id="inputPassword" placeholder="password baru" required>
-									</div>
-								</div>
-
-								<div class="control-group">
-									<label style="width: 110px;" class="control-label" for="inputPassword">Ulangi Password</label>
-									<div class="controls">
-										<input type="password" name="password_confirmation" id="inputPassword" placeholder="password baru" required>
-									</div>
-								</div>
-
-								<div class="control-group">
-									<div class="controls">
-										<button type="submit" class="btn theme">Reset Password</button>
-									</div>
-								</div>
-							{{Form::close()}}
-					  	</div>
-					</div>
-				</div>
-
-				<div class="span6">
-					<p>Pelanggan Baru</p>
-					<hr>
-					<p>Register and save time!
-
-					<ul class="ul">
-                        <li>Fast and easy check out</li>
-                        <li>Easy access to your order history and status</li>
-                    </ul>
-
-                    <a href="{{URL::to('member/create')}}" class="theme">Create an Account →</a></p>
-				</div>
-			</div>
-		</div>
-	</section>
-
-</div>
+                <!-- MAIN CONTENT -->
+                <div class="col-xs-12 col-sm-8 col-lg-9 main">
+                    <div class="section">
+                        {{Form::open(array('url' => 'member/recovery/'.$id.'/'.$code, ))}}
+                            <p>Silahkan masukkan password baru yang kamu inginkan dengan melengkapi form di bawah ini.</p>
+                            <h2>Forget Password</h2>
+                            <div class="content">
+                                <table class="form">
+                                    <tbody>
+                                        <tr>
+                                            <td>Password baru:</td>
+                                            <td>
+                                                <input type="password" name="password" id="inputPassword" placeholder="password baru" required>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Konfirmasi Password:</td>
+                                            <td>
+                                                <input type="password" name="password_confirmation" id="inputPassword" placeholder="konfirmasi password baru" required>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="buttons">
+                                    <table class="form">
+                                        <tbody>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    <input type="submit" value="Reset Passwrod" class="button">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- MAIN CONTENT -->
+            </div>
+        </div>
+    </div>

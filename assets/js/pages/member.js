@@ -1,4 +1,4 @@
-define(['jquery','bootstrap'], function($)
+define(['jquery'], function($)
 {
 	return new function(){
 		var self = this;
@@ -7,14 +7,6 @@ define(['jquery','bootstrap'], function($)
 		self.run = function(){
 			negara();
 			provinsi();
-            
-            $('#myTab a:first').tab('show');
-
-            // Tab function
-			$('#myTab a, #myTab button').click(function (e) {
-				e.preventDefault();
-				$(this).tab('show');
-			});
 		};
 
 		var negara = function(){

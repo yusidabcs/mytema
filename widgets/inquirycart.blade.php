@@ -1,27 +1,43 @@
-<!-- Cart Updates -->
-<div class="counter">
-	<a href="javascript:void(0);"><i class="icon-basket"></i> Your cart  : <span style="font-size: .9em;" class="theme pull-right">{{Shpcart::wishlist()->total_items()}} ITEM(s)</span></a>
+<!-- shopping cart -->
+<div class="col-xs-4 col-sm-4 cart-container">
+    <div class="header-cart  ">    
+        <div class="inner">
+            <div class="relative">
+                <a href="#" class="btn btn-iconed">
+                    <i class="icon-cart3"></i>
+                    <span>{{Shpcart::wishlist()->total_items()}} Item(s) - {{ price(Shpcart::cart()->total() )}}</span>
+                </a>
+                
+                <!-- CART ITEMS -->
+                <div class="cart-items" >
+                    <div class="header">Shopping Cart</div>
+                    @if(Shpcart::wishlist())
+                    <ul class="items clearfix">
+                    	@foreach (Shpcart::wishlist()->contents() as $key => $cart)
+                        <li>
+                            <a href="single.html" class="item-name">{{$cart['name']}}</a>
+                            <span class="item-price">{{$cart['qty']}}</span>
+                            <div class="clearfix"></div>
+                        </li>
+                        @endforeach
+                    </ul>
+                    
+                    <div class="mini-cart-total">
+                        <table>
+                            <tbody>
+                             	<tr>
+                                    <td class="right"><b>Total:</b></td>
+                                    <td class="right">{{ Shpcart::wishlist()->total_items()}}</td>
+                                </tr>
+                           </tbody>
+                        </table>
+                    </div>
+                    <div class="footer"><a href="{{url('checkout')}}">Checkout</a></div>
+                    @endif
+                </div>
+                <!-- /CART ITEMS -->                
+            </div>
+        </div>        
+    </div>
 </div>
-
-<!-- Bubble Cart Item -->
-<div class="cartbubble">
-	<div class="arrow-box">		
-		<!-- Item 1 -->
-		@if (Shpcart::wishlist()->contents())	
-			@foreach (Shpcart::wishlist()->contents() as $key => $cart)	
-			<div class="clearfix">
-				<a href="#">{{$cart['name']}}</a> <span class="theme pull-right">{{ $cart['qty'] }}</span>
-			</div>
-			@endforeach	
-		@endif	
-		<!-- Total -->
-		<div class="clearfix">
-			TOTAL <span class="theme pull-right">{{ Shpcart::wishlist()->total_items() }}</span>
-		</div>
-		<hr />
-		<div class="clearfix">
-			<a href="javascript:void(0)" id="closeit">Close</a>
-			<a href="{{URL::to('checkout')}}" class="btn theme btn-mini pull-right">Checkout</a>
-		</div>
-	</div>
-</div>
+<!-- /shopping cart -->
