@@ -60,8 +60,5 @@ return array(
     ),
     'banner' => true,
     'themesColor' => array('type'=> 'false', 'warnaDef'=>'main-color:#FEAA37', 'color'=>false),
-    /*'layout' => array(
-        'index1'=>'Layout dengan sidebar'
-        ),*/
     'layout' => false,
 );
